@@ -51,6 +51,9 @@ import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/componen
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '@/components/shadcn/ui/sheet'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/shadcn/ui/tooltip'
 import { createLazyFileRoute } from '@tanstack/react-router'
+import { ThemeToggle } from '@/components/shadcn/ui/theme-toggle'
+import { Button } from '@/components/shadcn/ui/button'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/shadcn/ui/avatar'
 
 export const Route = createLazyFileRoute('/')({
   component: Index,
@@ -62,9 +65,16 @@ function Index() {
       <header className="h-12 border-b shadow-sm flex items-center justify-center">
         <div className="px-2 flex items-center justify-between w-full max-w-7xl">
           <span>BrightStack Official</span>
-          <DropMenu>
-            <Settings className="size-5 cursor-pointer" />
-          </DropMenu>
+          <div className="w-fit flex items-center gap-3">
+            <ThemeToggle />
+
+            <DropMenu>
+              <Avatar className="size-6">
+                <AvatarImage src="https://github.com/shadcn.png" alt="name" />
+                <AvatarFallback>NAME</AvatarFallback>
+              </Avatar>
+            </DropMenu>
+          </div>
         </div>
       </header>
       <ResizablePanelGroup direction="horizontal">
@@ -75,7 +85,7 @@ function Index() {
 
         <ResizablePanel>
           <ResizablePanelGroup direction="vertical">
-            <ResizablePanel defaultSize={40}>
+            <ResizablePanel defaultSize={60}>
               <Fun />
             </ResizablePanel>
             <ResizableHandle />
@@ -149,7 +159,11 @@ function WelcomeAndDocs() {
 function DropMenu({ children }: { children: React.ReactNode }) {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>{children}</DropdownMenuTrigger>
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost" size="icon">
+          {children}
+        </Button>
+      </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
