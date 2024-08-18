@@ -38,7 +38,6 @@ export default function useSuspenseVirtualizerInfiniteQuery<T extends { [key: st
   const onScroll = useCallback(() => {
     if (!scrollRef.current) return
     const { scrollTop, scrollHeight, clientHeight } = scrollRef.current
-    console.log(scrollTop + clientHeight >= scrollHeight && !queryRest.isFetching, scrollTop, clientHeight, scrollHeight)
     if (scrollTop + clientHeight + 100 >= scrollHeight && !queryRest.isFetching) fetchNextPage()
   }, [fetchNextPage, queryRest.isFetching])
 

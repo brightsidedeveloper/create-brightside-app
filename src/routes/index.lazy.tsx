@@ -24,8 +24,9 @@ import useCreateInfiniteQuery from '@/hooks/BrightBaseQuery/useCreateInfiniteQue
 import Tables from '@/api/Tables'
 import VirtualizedInfiniteMap from '@/components/BrightBaseQuery/VirtualizedInfiniteMap'
 import useSuspenseVirtualizerInfiniteQuery from '@/hooks/BrightBaseQuery/useSuspenseVirtualizerInfiniteQuery'
-import { Card } from '@/components/ui/shadcn/ui/card'
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/shadcn/ui/card'
 import { Loader2 } from 'lucide-react'
+import Carousel from '@/components/ui/Carousel'
 
 export const Route = createLazyFileRoute('/')({
   component: Index,
@@ -123,14 +124,14 @@ function WelcomeAndDocs() {
         </div>
       </div>
       <Accordion />
+      <Carousel />
     </div>
   )
 }
 
 function VirtualizeInfiniteScroll() {
   const query = useCreateInfiniteQuery(Tables.todos, 20)
-  const props = useSuspenseVirtualizerInfiniteQuery(query, { estimateSize: (i) => (i === 0 ? 52 : 44) })
-  console.log(props)
+  const props = useSuspenseVirtualizerInfiniteQuery(query, { estimateSize: (i) => (i === 0 ? 247 : 231) })
   return (
     <VirtualizedInfiniteMap
       {...props}
@@ -142,8 +143,18 @@ function VirtualizeInfiniteScroll() {
       }
     >
       {({ label }, i) => (
-        <Card className={tw('h-8 mb-4', i === 0 && 'mt-4')}>
-          <Label className="pl-6">{label}</Label>
+        <Card className={tw('mb-4', i === 0 && 'mt-4')}>
+          <CardHeader>
+            <CardTitle>BrightSide</CardTitle>
+            <CardDescription>Themed virtualized scroll with infinite suspense query from generated supabase in seconds.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p>{label}</p>
+          </CardContent>
+          <CardFooter className="flex justify-between">
+            <Button variant="outline">Cancel</Button>
+            <Button>Deploy</Button>
+          </CardFooter>
         </Card>
       )}
     </VirtualizedInfiniteMap>
