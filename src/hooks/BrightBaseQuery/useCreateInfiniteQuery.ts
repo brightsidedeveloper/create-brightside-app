@@ -1,28 +1,28 @@
-import { BrightBaseCRUD, BrightQuery } from 'brightside-developer'
+import { BrightBaseCRUD } from 'brightside-developer'
 import { useMemo } from 'react'
 
 function useCreateInfiniteQuery<T extends { [key: string]: unknown }>(
   table: BrightBaseCRUD<T>,
   pageSize: number,
-  filters: Parameters<typeof table.read>[0] = {},
-  queryOptions?: Omit<BrightQuery.QueryOptions<T[]>, 'queryKey' | 'queryFn'>
+  params: [Parameters<typeof table.read>[0], Omit<Parameters<typeof table.read>[1], 'limit' | 'offset'>] = [{}, {}]
 ) {
   return useMemo(
     () => ({
-      ...queryOptions,
-      queryKey: [table.name, { pageSize, ...filters }],
-      queryFn: ({ pageParam = 0 }) =>
-        table.read(filters, {
+      queryKey: [table.name, { pageSize }],
+      queryFn: ({ pageParam }: { pageParam: number }) =>
+        table.read(params[0], {
+          ...params[1],
           limit: pageSize,
-          offset: pageParam * pageSize,
+          offset: pageParam * 3,
         }),
       getNextPageParam: (lastPage: T[], pages: T[][]) => {
         // Determine if there are more pages to load based on the last page data
-        if (lastPage.length < pageSize) return undefined
+        if (lastPage.length < 3) return undefined
         return pages.length
       },
+      initialPageParam: 0,
     }),
-    [queryOptions, table, filters, pageSize]
+    [pageSize, params, table]
   )
 }
 

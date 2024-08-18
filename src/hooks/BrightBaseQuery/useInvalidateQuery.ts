@@ -1,11 +1,11 @@
+import { QueryKey, useQueryClient } from 'brightside-developer'
 import { useCallback } from 'react'
-import { UseBrightSuspenseQueryReturn } from './BrightBaseQuery/useCreateQuery'
-import { BrightQuery } from 'brightside-developer'
+import { UseBrightSuspenseQueryReturn } from './useCreateQuery'
 
 export default function useInvalidateQuery<T extends { [key: string]: unknown }>(
-  opts: UseBrightSuspenseQueryReturn<T> | { queryKey: BrightQuery.QueryKey }
+  opts: UseBrightSuspenseQueryReturn<T> | { queryKey: QueryKey }
 ) {
-  const queryClient = BrightQuery.useQueryClient()
+  const queryClient = useQueryClient()
 
   const invalidate = useCallback(() => queryClient.invalidateQueries({ queryKey: opts.queryKey }), [queryClient, opts.queryKey])
 

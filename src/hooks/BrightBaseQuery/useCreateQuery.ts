@@ -1,10 +1,10 @@
-import { BrightBaseCRUD, BrightQuery } from 'brightside-developer'
+import { BrightBaseCRUD, QueryOptions } from 'brightside-developer'
 import { useMemo } from 'react'
 
 export default function useCreateQuery<T extends { [key: string]: unknown }>(
   table: BrightBaseCRUD<T>,
-  params: Parameters<typeof table.read> = [],
-  queryOptions?: Omit<BrightQuery.QueryOptions<T[]>, 'queryKey' | 'queryFn'>
+  params: Parameters<typeof table.read>,
+  queryOptions?: Omit<QueryOptions<T[]>, 'queryKey' | 'queryFn'>
 ) {
   return useMemo(
     () => ({
@@ -12,7 +12,7 @@ export default function useCreateQuery<T extends { [key: string]: unknown }>(
       queryKey: [table.name, ...params],
       queryFn: () => table.read(...params),
     }),
-    [queryOptions, table, params]
+    [params, queryOptions, table]
   )
 }
 
