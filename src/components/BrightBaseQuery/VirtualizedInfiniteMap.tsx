@@ -15,7 +15,7 @@ export default function VirtualizedInfiniteMap<T extends { [key: string]: unknow
   items,
   vItems,
   virtualizer,
-  queryRest: { isFetching, isLoading },
+  queryRest: { isLoading },
   loadingComponent,
   horizontal,
   setScrollViewMounted,
@@ -45,7 +45,6 @@ export default function VirtualizedInfiniteMap<T extends { [key: string]: unknow
           })}
         </div>
       </div>
-      {isFetching && loadingComponent}
       <ScrollActiveController setScrollViewMounted={setScrollViewMounted} />
     </ScrollArea>
   )

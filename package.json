@@ -28,7 +28,7 @@
     "@tanstack/router-devtools": "^1.48.1",
     "@tanstack/router-plugin": "^1.47.0",
     "add": "^2.0.6",
-    "brightside-developer": "^0.0.17",
+    "brightside-developer": "^0.0.18",
     "class-variance-authority": "^0.7.0",
     "cmdk": "^1.0.0",
     "embla-carousel-react": "^8.1.8",

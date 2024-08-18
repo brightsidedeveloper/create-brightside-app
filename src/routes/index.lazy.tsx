@@ -14,7 +14,7 @@ import SheetContent from '@/components/ui/sheet/SheetContent'
 import { DrawerContent } from '@/components/ui/drawer/DrawerContent'
 import { Sheet } from '@/components/ui/shadcn/ui/sheet'
 import { Switch } from '@/components/ui/shadcn/ui/switch'
-import { useState } from 'react'
+import { Suspense, useState } from 'react'
 import { BrightBaseRealtime, tw } from 'brightside-developer'
 import { RealtimeEvents } from '@/types/bright.types'
 import useSubscribe from '@/hooks/BrightBaseRealtime/useSubscribe'
@@ -27,6 +27,8 @@ import useSuspenseVirtualizerInfiniteQuery from '@/hooks/BrightBaseQuery/useSusp
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/shadcn/ui/card'
 import { Loader2 } from 'lucide-react'
 import Carousel from '@/components/ui/Carousel'
+import { ScrollArea } from '@/components/ui/shadcn/ui/scroll-area'
+import { Skeleton } from '@/components/ui/shadcn/ui/skeleton'
 
 export const Route = createLazyFileRoute('/')({
   component: Index,
@@ -48,7 +50,35 @@ function Index() {
           <ResizablePanelGroup direction="vertical">
             {/*  */}
             <ResizablePanel>
-              <VirtualizeInfiniteScroll />
+              <Suspense
+                fallback={
+                  <ScrollArea className="p-4">
+                    {[...Array(5)].map((_, i) => (
+                      <Card className={tw('mb-4', i === 0 && 'mt-4')}>
+                        <CardHeader>
+                          <CardTitle>
+                            <Skeleton className="h-[16px] w-24 rounded-full mb-1" />
+                          </CardTitle>
+                          <CardDescription>
+                            <Skeleton className="h-[12px] w-72 rounded-full" />
+                            <div className="h-[2px] w-full" />
+                            <Skeleton className="h-[12px] w-32 rounded-full mb-3" />
+                          </CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                          <Skeleton className="h-[16px] w-32 rounded-full" />
+                        </CardContent>
+                        <CardFooter className="flex justify-between opacity-20">
+                          <Skeleton className="w-20 h-10 " />
+                          <Skeleton className="w-20 h-10" />
+                        </CardFooter>
+                      </Card>
+                    ))}
+                  </ScrollArea>
+                }
+              >
+                <VirtualizeInfiniteScroll />
+              </Suspense>
             </ResizablePanel>
             {/*  */}
             <ResizableHandle />
@@ -135,9 +165,9 @@ function VirtualizeInfiniteScroll() {
   return (
     <VirtualizedInfiniteMap
       {...props}
-      className="size-full px-4"
+      className="size-full px-4 animate-in"
       loadingComponent={
-        <div className="flex-1 size-full flex items-center justify-center">
+        <div className="flex-1 w-full h-32 flex items-center justify-center">
           <Loader2 className="size-12" />
         </div>
       }
@@ -179,7 +209,7 @@ function FullShadcnSupport() {
 }
 
 interface Events extends RealtimeEvents {
-  checked: boolean
+  checked: { toggle: boolean }
 }
 
 const listener = new BrightBaseRealtime<Events>('room1')
@@ -189,12 +219,12 @@ function RealtimeDemo() {
   const [checked, setChecked] = useState(false)
 
   useSubscribe(listener)
-  useEvent(listener, 'checked', setChecked)
+  useEvent(listener, 'checked', ({ toggle }) => setChecked(toggle))
 
   return (
     <div className="flex items-center space-x-2">
       <Label htmlFor="realtime">Realtime Switch</Label>
-      <Switch id="realtime" checked={checked} onCheckedChange={() => emitter.emit('checked', !checked)} />
+      <Switch id="realtime" checked={checked} onCheckedChange={() => emitter.emit('checked', { toggle: !checked })} />
     </div>
   )
 }
