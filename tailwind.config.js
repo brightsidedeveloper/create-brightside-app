@@ -7,7 +7,7 @@ export default {
       colors: {
         background: 'var(--background)',
         'background-two': 'var(--background-two)',
-        text: 'var(--text)',
+        foreground: 'var(--foreground)',
         border: 'var(--border)',
         primary: 'var(--primary)',
         secondary: 'var(--secondary)',

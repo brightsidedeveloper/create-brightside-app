@@ -1,3 +1,5 @@
+// More types are generated with `npm run gen`
+
 export interface RealtimeEvents {
   [event: string]: unknown
 }
