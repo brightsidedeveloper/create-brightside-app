@@ -1,4 +1,3 @@
-import { StrictMode } from 'react'
 import ReactDOM from 'react-dom/client'
 import { createRouter, RouterProvider } from '@tanstack/react-router'
 import { BrightProvider, initBrightBase } from 'brightside-developer'
@@ -26,10 +25,8 @@ const rootElement = document.getElementById('root')!
 if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement)
   root.render(
-    <StrictMode>
-      <BrightProvider>
-        <RouterProvider router={router} />
-      </BrightProvider>
-    </StrictMode>
+    <BrightProvider>
+      <RouterProvider router={router} />
+    </BrightProvider>
   )
 }

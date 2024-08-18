@@ -2,7 +2,7 @@ import { AccordionContent, AccordionItem, AccordionTrigger, Accordion as RAccord
 
 export default function Accordion() {
   return (
-    <RAccordion type="single" collapsible className="w-[600px]">
+    <RAccordion type="single" collapsible className="w-full max-w-[600px]">
       <AccordionItem value="item-1">
         <AccordionTrigger>Is it free?</AccordionTrigger>
         <AccordionContent>Yes. But you should Venmo me @Tim-Vanlerberg</AccordionContent>

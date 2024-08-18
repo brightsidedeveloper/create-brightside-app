@@ -1,11 +1,11 @@
-import { ReactNode, useMemo } from 'react'
+import { Dispatch, ReactNode, SetStateAction, useEffect, useMemo } from 'react'
 import { c, tw } from 'brightside-developer'
 import { UseSuspenseVirtualizerInfiniteQueryReturn } from '../../hooks/BrightBaseQuery/useSuspenseVirtualizerInfiniteQuery'
-import { UseVirtualizerInfiniteQueryReturn } from '../../hooks/BrightBaseQuery/useVirtualizerInfiniteQuery'
+import { ScrollArea } from '../ui/shadcn/ui/scroll-area'
 
 interface VirtualizedInfiniteMapProps<T extends { [key: string]: unknown }> {
-  className: string
-  children: (item: T) => ReactNode
+  children: (item: T, index: number) => ReactNode
+  className?: string
   loadingComponent?: JSX.Element
   horizontal?: boolean
 }
@@ -13,22 +13,18 @@ interface VirtualizedInfiniteMapProps<T extends { [key: string]: unknown }> {
 export default function VirtualizedInfiniteMap<T extends { [key: string]: unknown }>({
   className,
   items,
-  onScroll,
-  scrollRef,
   vItems,
   virtualizer,
   queryRest: { isFetching, isLoading },
   loadingComponent,
   horizontal,
+  setScrollViewMounted,
   children,
-}: (UseSuspenseVirtualizerInfiniteQueryReturn<T> | UseVirtualizerInfiniteQueryReturn<T>) & VirtualizedInfiniteMapProps<T>) {
-  const cn = useMemo(
-    () => c('flex flex-col w-full min-h-20', tw(horizontal ? 'overflow-y-auto' : 'overflow-x-auto'), className),
-    [className, horizontal]
-  )
+}: UseSuspenseVirtualizerInfiniteQueryReturn<T> & VirtualizedInfiniteMapProps<T>) {
+  const cn = useMemo(() => c('flex', tw(horizontal && 'flex-col'), className), [className, horizontal])
   if (isLoading) return loadingComponent
   return (
-    <div ref={scrollRef} onScroll={onScroll} className={cn}>
+    <ScrollArea className={cn}>
       <div className="relative" style={{ height: virtualizer.getTotalSize() }}>
         <div
           style={{
@@ -43,13 +39,23 @@ export default function VirtualizedInfiniteMap<T extends { [key: string]: unknow
             const item = items[vRow.index]
             return (
               <div key={vRow.key} data-index={vRow.index} ref={virtualizer.measureElement}>
-                {children(item)}
+                {children(item, vRow.index)}
               </div>
             )
           })}
         </div>
       </div>
       {isFetching && loadingComponent}
-    </div>
+      <ScrollActiveController setScrollViewMounted={setScrollViewMounted} />
+    </ScrollArea>
   )
+}
+
+function ScrollActiveController({ setScrollViewMounted }: { setScrollViewMounted: Dispatch<SetStateAction<boolean>> }) {
+  useEffect(() => {
+    setScrollViewMounted(true)
+    return () => setScrollViewMounted(false)
+  })
+
+  return null
 }

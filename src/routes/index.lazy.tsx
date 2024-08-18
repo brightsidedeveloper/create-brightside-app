@@ -1,6 +1,3 @@
-import { Card, CardContent } from '@/components/ui/shadcn/ui/card'
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/shadcn/ui/carousel'
-
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/shadcn/ui/resizable'
 import { createLazyFileRoute } from '@tanstack/react-router'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/shadcn/ui/avatar'
@@ -18,11 +15,17 @@ import { DrawerContent } from '@/components/ui/drawer/DrawerContent'
 import { Sheet } from '@/components/ui/shadcn/ui/sheet'
 import { Switch } from '@/components/ui/shadcn/ui/switch'
 import { useState } from 'react'
-import { BrightBaseRealtime } from 'brightside-developer'
+import { BrightBaseRealtime, tw } from 'brightside-developer'
 import { RealtimeEvents } from '@/types/bright.types'
 import useSubscribe from '@/hooks/BrightBaseRealtime/useSubscribe'
 import useEvent from '@/hooks/BrightBaseRealtime/useEvent'
 import { Label } from '@/components/ui/shadcn/ui/label'
+import useCreateInfiniteQuery from '@/hooks/BrightBaseQuery/useCreateInfiniteQuery'
+import Tables from '@/api/Tables'
+import VirtualizedInfiniteMap from '@/components/BrightBaseQuery/VirtualizedInfiniteMap'
+import useSuspenseVirtualizerInfiniteQuery from '@/hooks/BrightBaseQuery/useSuspenseVirtualizerInfiniteQuery'
+import { Card } from '@/components/ui/shadcn/ui/card'
+import { Loader2 } from 'lucide-react'
 
 export const Route = createLazyFileRoute('/')({
   component: Index,
@@ -43,8 +46,8 @@ function Index() {
         <ResizablePanel>
           <ResizablePanelGroup direction="vertical">
             {/*  */}
-            <ResizablePanel defaultSize={60}>
-              <Fun />
+            <ResizablePanel>
+              <VirtualizeInfiniteScroll />
             </ResizablePanel>
             {/*  */}
             <ResizableHandle />
@@ -92,20 +95,20 @@ function Header() {
 
 function WelcomeAndDocs() {
   return (
-    <div className="p-10 flex justify-center items-center flex-col gap-4 h-[calc(100dvh-3rem)]">
-      <div className="p-8 rounded-3xl border bg-card shadow-md dark:shadow-xl w-fit">
-        <h3 className="text-7xl pb-5">Welcome Home!</h3>
+    <div className="p-10 w-full flex justify-center items-center flex-col gap-4 h-[calc(100dvh-3rem)] @container">
+      <div className="p-8 rounded-3xl border bg-card shadow-md dark:shadow-xl w-full max-w-[600px]">
+        <h3 className="text-3xl @md:text-5xl @2xl:text-7xl pb-5">Welcome Home!</h3>
         <p className="text-xl">Enjoy Coding!</p>
       </div>
       <div className="flex gap-6 items-center">
-        <img src="/Bright.svg" alt="BrightStack Logo" className="w-48 rounded-3xl shadow-md dark:shadow-xl" />
+        <img src="/Bright.svg" alt="BrightStack Logo" className="w-20 @md:w-32 @2xl:w-48 rounded-3xl shadow-md dark:shadow-xl" />
         <div>
-          <h4 className="text-6xl pb-12 font-semibold">BrightSide!</h4>
-          <p>
+          <h4 className="text-lg @md:text-4xl @2xl:text-6xl @2xl:pb-5 font-semibold">BrightSide!</h4>
+          <p className="text-xs @md:text-sm @lg:text-base">
             There are a lot of things you can do with BrightStack.
             <br /> Check out the docs to learn more.
           </p>
-          <span>
+          <span className="text-xs @md:text-sm @lg:text-base">
             <Tooltip content="Wow, tooltip support!">
               <a href="https://brightside-developer-docs.vercel.app" className="text-primary underline mr-5">
                 BrightSide API Docs
@@ -124,32 +127,26 @@ function WelcomeAndDocs() {
   )
 }
 
-function Fun() {
+function VirtualizeInfiniteScroll() {
+  const query = useCreateInfiniteQuery(Tables.todos, 20)
+  const props = useSuspenseVirtualizerInfiniteQuery(query, { estimateSize: (i) => (i === 0 ? 52 : 44) })
+  console.log(props)
   return (
-    <div className="size-full flex items-center justify-center">
-      <Carousel
-        opts={{
-          loop: true,
-        }}
-        className="w-[50%] max-w-xs"
-      >
-        <CarouselContent>
-          {Array.from({ length: 20 }).map((_, index) => (
-            <CarouselItem key={index}>
-              <div className="p-1">
-                <Card>
-                  <CardContent className="flex aspect-square items-center justify-center p-6">
-                    <span className="text-4xl font-semibold">{index + 1}</span>
-                  </CardContent>
-                </Card>
-              </div>
-            </CarouselItem>
-          ))}
-        </CarouselContent>
-        <CarouselPrevious />
-        <CarouselNext />
-      </Carousel>
-    </div>
+    <VirtualizedInfiniteMap
+      {...props}
+      className="size-full px-4"
+      loadingComponent={
+        <div className="flex-1 size-full flex items-center justify-center">
+          <Loader2 className="size-12" />
+        </div>
+      }
+    >
+      {({ label }, i) => (
+        <Card className={tw('h-8 mb-4', i === 0 && 'mt-4')}>
+          <Label className="pl-6">{label}</Label>
+        </Card>
+      )}
+    </VirtualizedInfiniteMap>
   )
 }
 

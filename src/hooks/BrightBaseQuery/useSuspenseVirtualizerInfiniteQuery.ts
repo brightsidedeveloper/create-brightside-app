@@ -1,6 +1,6 @@
 import { useVirtualizer } from '@tanstack/react-virtual'
 import { useSuspenseInfiniteQuery } from 'brightside-developer'
-import { useCallback, useMemo, useRef } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { UseBrightInfiniteQueryReturn } from './useCreateInfiniteQuery'
 
 interface VirtualizerOptions {
@@ -19,9 +19,12 @@ export default function useSuspenseVirtualizerInfiniteQuery<T extends { [key: st
     ...queryRest
   } = useSuspenseInfiniteQuery(query)
 
+  const [scrollViewMounted, setScrollViewMounted] = useState(false)
+
   const items = useMemo(() => pages.flat(), [pages])
 
-  const scrollRef = useRef<HTMLDivElement>(null)
+  const scrollRef = useRef<HTMLDivElement | null>(null)
+  scrollRef.current = scrollViewMounted ? document.querySelector('[data-radix-scroll-area-viewport]')! : null
   const virtualizer = useVirtualizer({
     count: items.length,
     getScrollElement: () => scrollRef.current,
@@ -33,14 +36,22 @@ export default function useSuspenseVirtualizerInfiniteQuery<T extends { [key: st
   const vItems = virtualizer.getVirtualItems()
 
   const onScroll = useCallback(() => {
-    if (!scrollRef.current) return alert('Must put ref on scrollable element from useSuspenseVirtualizerInfiniteQuery')
+    if (!scrollRef.current) return
     const { scrollTop, scrollHeight, clientHeight } = scrollRef.current
+    console.log(scrollTop + clientHeight >= scrollHeight && !queryRest.isFetching, scrollTop, clientHeight, scrollHeight)
     if (scrollTop + clientHeight + 100 >= scrollHeight && !queryRest.isFetching) fetchNextPage()
   }, [fetchNextPage, queryRest.isFetching])
 
+  useEffect(() => {
+    const { current: el } = scrollRef
+    if (!el) return
+    el.addEventListener('scroll', onScroll)
+    return () => el.removeEventListener('scroll', onScroll)
+  }, [onScroll, scrollViewMounted])
+
   return useMemo(
-    () => ({ scrollRef, virtualizer, items, vItems, onScroll, horizontal, queryRest }),
-    [virtualizer, items, vItems, horizontal, onScroll, queryRest]
+    () => ({ virtualizer, items, vItems, horizontal, queryRest, setScrollViewMounted }),
+    [virtualizer, items, vItems, horizontal, queryRest]
   )
 }
 
