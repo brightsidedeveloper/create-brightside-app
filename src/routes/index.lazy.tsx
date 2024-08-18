@@ -35,7 +35,7 @@ function Index() {
   return (
     <div className="size-screen">
       <Header />
-      <ResizablePanelGroup direction="horizontal">
+      <ResizablePanelGroup className="max-w-screen-2xl mx-auto" direction="horizontal">
         {/*  */}
         <ResizablePanel defaultSize={70}>
           <WelcomeAndDocs />
@@ -67,8 +67,8 @@ function Index() {
 function Header() {
   return (
     <header className="h-12 border-b shadow-sm flex items-center justify-center">
-      <div className="px-2 flex items-center justify-between w-full max-w-7xl">
-        <span className="font-bold">BrightStack Official</span>
+      <div className="px-2 flex items-center justify-between w-full max-w-screen-2xl">
+        <span className="font-semibold text-xl">BrightStack Official</span>
         <div className="w-fit flex items-center gap-3">
           <Command>
             {({ setOpen }) => (
