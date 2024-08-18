@@ -1,5 +1,5 @@
 import { ReactNode, useMemo } from 'react'
-import { cn, tw } from 'brightside-developer'
+import { c, tw } from 'brightside-developer'
 import { UseSuspenseVirtualizerInfiniteQueryReturn } from '../../hooks/BrightBaseQuery/useSuspenseVirtualizerInfiniteQuery'
 import { UseVirtualizerInfiniteQueryReturn } from '../../hooks/BrightBaseQuery/useVirtualizerInfiniteQuery'
 
@@ -17,20 +17,18 @@ export default function VirtualizedInfiniteMap<T extends { [key: string]: unknow
   scrollRef,
   vItems,
   virtualizer,
-  queryRest: { isFetching },
+  queryRest: { isFetching, isLoading },
   loadingComponent,
   horizontal,
   children,
 }: (UseSuspenseVirtualizerInfiniteQueryReturn<T> | UseVirtualizerInfiniteQueryReturn<T>) & VirtualizedInfiniteMapProps<T>) {
+  const cn = useMemo(
+    () => c('flex flex-col w-full min-h-20', tw(horizontal ? 'overflow-y-auto' : 'overflow-x-auto'), className),
+    [className, horizontal]
+  )
+  if (isLoading) return loadingComponent
   return (
-    <div
-      ref={scrollRef}
-      onScroll={onScroll}
-      className={useMemo(
-        () => cn('flex flex-col w-full min-h-20', tw(horizontal ? 'overflow-y-auto' : 'overflow-x-auto'), className),
-        [className, horizontal]
-      )}
-    >
+    <div ref={scrollRef} onScroll={onScroll} className={cn}>
       <div className="relative" style={{ height: virtualizer.getTotalSize() }}>
         <div
           style={{
