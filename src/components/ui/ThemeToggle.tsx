@@ -1,7 +1,7 @@
 import { Moon, Sun } from 'lucide-react'
 
-import { Button } from './button'
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './dropdown-menu'
+import { Button } from './shadcn/ui/button'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './shadcn/ui/dropdown-menu'
 import { BrightWebTheme } from 'brightside-developer'
 
 export function ThemeToggle() {

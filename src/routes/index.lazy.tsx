@@ -1,59 +1,28 @@
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/shadcn/ui/accordion'
-import { Card, CardContent } from '@/components/shadcn/ui/card'
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/shadcn/ui/carousel'
-import {
-  ContextMenu,
-  ContextMenuCheckboxItem,
-  ContextMenuContent,
-  ContextMenuItem,
-  ContextMenuLabel,
-  ContextMenuRadioGroup,
-  ContextMenuRadioItem,
-  ContextMenuSeparator,
-  ContextMenuShortcut,
-  ContextMenuSub,
-  ContextMenuSubContent,
-  ContextMenuSubTrigger,
-  ContextMenuTrigger,
-} from '@/components/shadcn/ui/context-menu'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuPortal,
-  DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
-  DropdownMenuTrigger,
-} from '@/components/shadcn/ui/dropdown-menu'
+import { Card, CardContent } from '@/components/ui/shadcn/ui/card'
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/shadcn/ui/carousel'
 
-import {
-  Cloud,
-  CreditCard,
-  Github,
-  Keyboard,
-  LifeBuoy,
-  LogOut,
-  Mail,
-  MessageSquare,
-  Plus,
-  PlusCircle,
-  Settings,
-  User,
-  UserPlus,
-  Users,
-} from 'lucide-react'
-import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/shadcn/ui/resizable'
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '@/components/shadcn/ui/sheet'
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/shadcn/ui/tooltip'
+import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/shadcn/ui/resizable'
 import { createLazyFileRoute } from '@tanstack/react-router'
-import { ThemeToggle } from '@/components/shadcn/ui/theme-toggle'
-import { Button } from '@/components/shadcn/ui/button'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/shadcn/ui/avatar'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/shadcn/ui/avatar'
+import DropDown from '@/components/ui/DropDown'
+import { ThemeToggle } from '@/components/ui/ThemeToggle'
+import Tooltip from '@/components/ui/Tooltip'
+import Accordion from '@/components/ui/Accordion'
+import { Command } from '@/components/ui/Command'
+import { Button } from '@/components/ui/shadcn/ui/button'
+import { MenuBar } from '@/components/ui/MenuBar'
+import ContextMenu from '@/components/ui/ContextMenu'
+import { Drawer } from '@/components/ui/shadcn/ui/drawer'
+import SheetContent from '@/components/ui/sheet/SheetContent'
+import { DrawerContent } from '@/components/ui/drawer/DrawerContent'
+import { Sheet } from '@/components/ui/shadcn/ui/sheet'
+import { Switch } from '@/components/ui/shadcn/ui/switch'
+import { useState } from 'react'
+import { BrightBaseRealtime } from 'brightside-developer'
+import { RealtimeEvents } from '@/types/bright.types'
+import useSubscribe from '@/hooks/BrightBaseRealtime/useSubscribe'
+import useEvent from '@/hooks/BrightBaseRealtime/useEvent'
+import { Label } from '@/components/ui/shadcn/ui/label'
 
 export const Route = createLazyFileRoute('/')({
   component: Index,
@@ -62,40 +31,62 @@ export const Route = createLazyFileRoute('/')({
 function Index() {
   return (
     <div className="size-screen">
-      <header className="h-12 border-b shadow-sm flex items-center justify-center">
-        <div className="px-2 flex items-center justify-between w-full max-w-7xl">
-          <span>BrightStack Official</span>
-          <div className="w-fit flex items-center gap-3">
-            <ThemeToggle />
-
-            <DropMenu>
-              <Avatar className="size-6">
-                <AvatarImage src="https://github.com/shadcn.png" alt="name" />
-                <AvatarFallback>NAME</AvatarFallback>
-              </Avatar>
-            </DropMenu>
-          </div>
-        </div>
-      </header>
+      <Header />
       <ResizablePanelGroup direction="horizontal">
+        {/*  */}
         <ResizablePanel defaultSize={70}>
           <WelcomeAndDocs />
         </ResizablePanel>
+        {/*  */}
         <ResizableHandle />
-
+        {/*  */}
         <ResizablePanel>
           <ResizablePanelGroup direction="vertical">
+            {/*  */}
             <ResizablePanel defaultSize={60}>
               <Fun />
             </ResizablePanel>
+            {/*  */}
             <ResizableHandle />
+            {/*  */}
             <ResizablePanel>
               <FullShadcnSupport />
             </ResizablePanel>
+            {/*  */}
           </ResizablePanelGroup>
         </ResizablePanel>
+        {/*  */}
       </ResizablePanelGroup>
     </div>
+  )
+}
+
+function Header() {
+  return (
+    <header className="h-12 border-b shadow-sm flex items-center justify-center">
+      <div className="px-2 flex items-center justify-between w-full max-w-7xl">
+        <span className="font-bold">BrightStack Official</span>
+        <div className="w-fit flex items-center gap-3">
+          <Command>
+            {({ setOpen }) => (
+              <Button variant="ghost" size="icon" className="flex flex-col" onClick={() => setOpen((curr) => !curr)}>
+                <div className="text-[10px] [line-height:0.75rem]">Crtl</div>
+                <div className="text-[10px] [line-height:0.75rem]">+ K</div>
+              </Button>
+            )}
+          </Command>
+
+          <ThemeToggle />
+
+          <DropDown>
+            <Avatar className="size-6">
+              <AvatarImage src="https://github.com/shadcn.png" alt="name" />
+              <AvatarFallback>NAME</AvatarFallback>
+            </Avatar>
+          </DropDown>
+        </div>
+      </div>
+    </header>
   )
 }
 
@@ -115,136 +106,21 @@ function WelcomeAndDocs() {
             <br /> Check out the docs to learn more.
           </p>
           <span>
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger>
-                  <a href="https://brightside-developer-docs.vercel.app" className="text-primary underline mr-5">
-                    BrightSide API Docs
-                  </a>
-                </TooltipTrigger>
-                <TooltipContent>Wow, tooltip support!</TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger>
-                  <a href="https://github.com/brightsidedeveloper/brightside-developer" className="text-primary underline">
-                    BrightSide API Github
-                  </a>
-                </TooltipTrigger>
-                <TooltipContent>Wow, tooltip support!</TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+            <Tooltip content="Wow, tooltip support!">
+              <a href="https://brightside-developer-docs.vercel.app" className="text-primary underline mr-5">
+                BrightSide API Docs
+              </a>
+            </Tooltip>
+            <Tooltip content="Wow, tooltip support!">
+              <a href="https://github.com/brightsidedeveloper/brightside-developer" className="text-primary underline">
+                BrightSide API Github
+              </a>
+            </Tooltip>
           </span>
         </div>
       </div>
-      <Accordion type="single" collapsible className="w-[600px]">
-        <AccordionItem value="item-1">
-          <AccordionTrigger>Is it free?</AccordionTrigger>
-          <AccordionContent>Yes. But you should Venmo me @Tim-Vanlerberg</AccordionContent>
-        </AccordionItem>
-        <AccordionItem value="item-2">
-          <AccordionTrigger>Is it styled?</AccordionTrigger>
-          <AccordionContent>Yes. It comes with default styles that matches the other components&apos; aesthetic.</AccordionContent>
-        </AccordionItem>
-        <AccordionItem value="item-3">
-          <AccordionTrigger>This is so awesome</AccordionTrigger>
-          <AccordionContent>Facts.</AccordionContent>
-        </AccordionItem>
-      </Accordion>
+      <Accordion />
     </div>
-  )
-}
-
-function DropMenu({ children }: { children: React.ReactNode }) {
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon">
-          {children}
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56">
-        <DropdownMenuLabel>My Account</DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuGroup>
-          <DropdownMenuItem>
-            <User className="mr-2 h-4 w-4" />
-            <span>Profile</span>
-            <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <CreditCard className="mr-2 h-4 w-4" />
-            <span>Billing</span>
-            <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <Settings className="mr-2 h-4 w-4" />
-            <span>Settings</span>
-            <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <Keyboard className="mr-2 h-4 w-4" />
-            <span>Keyboard shortcuts</span>
-            <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
-          </DropdownMenuItem>
-        </DropdownMenuGroup>
-        <DropdownMenuSeparator />
-        <DropdownMenuGroup>
-          <DropdownMenuItem>
-            <Users className="mr-2 h-4 w-4" />
-            <span>Team</span>
-          </DropdownMenuItem>
-          <DropdownMenuSub>
-            <DropdownMenuSubTrigger>
-              <UserPlus className="mr-2 h-4 w-4" />
-              <span>Invite users</span>
-            </DropdownMenuSubTrigger>
-            <DropdownMenuPortal>
-              <DropdownMenuSubContent>
-                <DropdownMenuItem>
-                  <Mail className="mr-2 h-4 w-4" />
-                  <span>Email</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <MessageSquare className="mr-2 h-4 w-4" />
-                  <span>Message</span>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>
-                  <PlusCircle className="mr-2 h-4 w-4" />
-                  <span>More...</span>
-                </DropdownMenuItem>
-              </DropdownMenuSubContent>
-            </DropdownMenuPortal>
-          </DropdownMenuSub>
-          <DropdownMenuItem>
-            <Plus className="mr-2 h-4 w-4" />
-            <span>New Team</span>
-            <DropdownMenuShortcut>⌘+T</DropdownMenuShortcut>
-          </DropdownMenuItem>
-        </DropdownMenuGroup>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem>
-          <Github className="mr-2 h-4 w-4" />
-          <span>GitHub</span>
-        </DropdownMenuItem>
-        <DropdownMenuItem>
-          <LifeBuoy className="mr-2 h-4 w-4" />
-          <span>Support</span>
-        </DropdownMenuItem>
-        <DropdownMenuItem disabled>
-          <Cloud className="mr-2 h-4 w-4" />
-          <span>API</span>
-        </DropdownMenuItem>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem>
-          <LogOut className="mr-2 h-4 w-4" />
-          <span>Log out</span>
-          <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
   )
 }
 
@@ -279,64 +155,38 @@ function Fun() {
 
 function FullShadcnSupport() {
   return (
-    <div className="size-full p-4">
+    <div className="size-full flex flex-col gap-4 p-4">
+      <Drawer>
+        <MenuBar />
+        <DrawerContent />
+      </Drawer>
       <Sheet>
-        <ContextMenu>
-          <ContextMenuTrigger className="flex size-full items-center justify-center rounded-md border border-dashed text-sm">
-            Right click here
-          </ContextMenuTrigger>
-          <ContextMenuContent className="w-64">
-            <SheetTrigger className="w-full">
-              <ContextMenuItem inset>
-                Click Me
-                <ContextMenuShortcut>⌘[</ContextMenuShortcut>
-              </ContextMenuItem>
-            </SheetTrigger>
-            <ContextMenuItem inset disabled>
-              Forward
-              <ContextMenuShortcut>⌘]</ContextMenuShortcut>
-            </ContextMenuItem>
-            <ContextMenuItem inset>
-              Reload
-              <ContextMenuShortcut>⌘R</ContextMenuShortcut>
-            </ContextMenuItem>
-            <ContextMenuSub>
-              <ContextMenuSubTrigger inset>More Tools</ContextMenuSubTrigger>
-              <ContextMenuSubContent className="w-48">
-                <ContextMenuItem>
-                  Save Page As...
-                  <ContextMenuShortcut>⇧⌘S</ContextMenuShortcut>
-                </ContextMenuItem>
-                <ContextMenuItem>Create Shortcut...</ContextMenuItem>
-                <ContextMenuItem>Name Window...</ContextMenuItem>
-                <ContextMenuSeparator />
-                <ContextMenuItem>Developer Tools</ContextMenuItem>
-              </ContextMenuSubContent>
-            </ContextMenuSub>
-            <ContextMenuSeparator />
-            <ContextMenuCheckboxItem checked>
-              Show Bookmarks Bar
-              <ContextMenuShortcut>⌘⇧B</ContextMenuShortcut>
-            </ContextMenuCheckboxItem>
-            <ContextMenuCheckboxItem>Show Full URLs</ContextMenuCheckboxItem>
-            <ContextMenuSeparator />
-            <ContextMenuRadioGroup value="pedro">
-              <ContextMenuLabel inset>People</ContextMenuLabel>
-              <ContextMenuSeparator />
-              <ContextMenuRadioItem value="pedro">Pedro Duarte</ContextMenuRadioItem>
-              <ContextMenuRadioItem value="colm">Colm Tuite</ContextMenuRadioItem>
-            </ContextMenuRadioGroup>
-          </ContextMenuContent>
+        <ContextMenu className="flex size-full items-center justify-center rounded-md border border-dashed text-sm">
+          <RealtimeDemo />
         </ContextMenu>
-        <SheetContent>
-          <SheetHeader>
-            <SheetTitle>Oh my God!</SheetTitle>
-            <SheetDescription>
-              This action even has a context menu! Right click the button to see it in action into a sheet... That's rad!
-            </SheetDescription>
-          </SheetHeader>
-        </SheetContent>
+        <SheetContent />
       </Sheet>
+    </div>
+  )
+}
+
+interface Events extends RealtimeEvents {
+  checked: boolean
+}
+
+const listener = new BrightBaseRealtime<Events>('room1')
+const emitter = new BrightBaseRealtime<Events>('room1')
+
+function RealtimeDemo() {
+  const [checked, setChecked] = useState(false)
+
+  useSubscribe(listener)
+  useEvent(listener, 'checked', setChecked)
+
+  return (
+    <div className="flex items-center space-x-2">
+      <Label htmlFor="realtime">Realtime Switch</Label>
+      <Switch id="realtime" checked={checked} onCheckedChange={() => emitter.emit('checked', !checked)} />
     </div>
   )
 }
