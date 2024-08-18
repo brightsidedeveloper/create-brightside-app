@@ -1,12 +1,12 @@
 {
-  "name": "create-brightside-app",
+  "name": "brightside-app",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "gen": "npx supabase gen types --lang=typescript --project-id \"$SUPABASE_REFERENCE_ID\" --schema public > src/types/database.types.ts && npx bsd gen-brightbase",
+    "gen": "npx supabase gen types --lang=typescript --project-id \"ybpjdhzaqaogrojgsjxh\" --schema public > src/types/database.types.ts && npx bsd gen-brightbase",
     "lint": "eslint .",
     "preview": "vite preview"
   },

@@ -1,4 +1,4 @@
-// More types are generated with `npm run gen`
+export type { Tables as BrightTable } from './database.types.ts'
 
 export interface RealtimeEvents {
   [event: string]: unknown
