@@ -36,7 +36,7 @@ function Index() {
   return (
     <div className="size-screen">
       <Header />
-      <ResizablePanelGroup className="max-w-screen-2xl mx-auto" direction="horizontal">
+      <ResizablePanelGroup className="max-w-screen-2xl mx-auto border-l border-r" direction="horizontal">
         {/*  */}
         <ResizablePanel defaultSize={70}>
           <WelcomeAndDocs />
