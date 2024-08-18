@@ -21,7 +21,7 @@ import useSubscribe from '@/hooks/BrightBaseRealtime/useSubscribe'
 import useEvent from '@/hooks/BrightBaseRealtime/useEvent'
 import { Label } from '@/components/ui/shadcn/ui/label'
 import useCreateInfiniteQuery from '@/hooks/BrightBaseQuery/useCreateInfiniteQuery'
-import Tables from '@/api/Tables'
+import FakeTables from '@/api/FakeTables'
 import VirtualizedInfiniteMap from '@/components/BrightBaseQuery/VirtualizedInfiniteMap'
 import useSuspenseVirtualizerInfiniteQuery from '@/hooks/BrightBaseQuery/useSuspenseVirtualizerInfiniteQuery'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/shadcn/ui/card'
@@ -130,7 +130,7 @@ function WelcomeAndDocs() {
 }
 
 function VirtualizeInfiniteScroll() {
-  const query = useCreateInfiniteQuery(Tables.todos, 20)
+  const query = useCreateInfiniteQuery(FakeTables.todos, 20)
   const props = useSuspenseVirtualizerInfiniteQuery(query, { estimateSize: (i) => (i === 0 ? 247 : 231) })
   return (
     <VirtualizedInfiniteMap
