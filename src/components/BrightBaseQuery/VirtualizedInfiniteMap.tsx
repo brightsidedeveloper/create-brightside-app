@@ -1,6 +1,7 @@
 import { ReactNode, useMemo } from 'react'
 import { cn, tw } from 'brightside-developer'
 import { UseSuspenseVirtualizerInfiniteQueryReturn } from '../../hooks/BrightBaseQuery/useSuspenseVirtualizerInfiniteQuery'
+import { UseVirtualizerInfiniteQueryReturn } from '../../hooks/BrightBaseQuery/useVirtualizerInfiniteQuery'
 
 interface VirtualizedInfiniteMapProps<T extends { [key: string]: unknown }> {
   className: string
@@ -20,7 +21,7 @@ export default function VirtualizedInfiniteMap<T extends { [key: string]: unknow
   loadingComponent,
   horizontal,
   children,
-}: UseSuspenseVirtualizerInfiniteQueryReturn<T> & VirtualizedInfiniteMapProps<T>) {
+}: (UseSuspenseVirtualizerInfiniteQueryReturn<T> | UseVirtualizerInfiniteQueryReturn<T>) & VirtualizedInfiniteMapProps<T>) {
   return (
     <div
       ref={scrollRef}
