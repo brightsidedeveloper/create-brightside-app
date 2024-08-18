@@ -2,7 +2,7 @@ import { BrightBaseCRUD, BrightQuery } from 'brightside-developer'
 
 export default function useCreateQuery<T extends { [key: string]: unknown }>(
   table: BrightBaseCRUD<T>,
-  params: Parameters<typeof table.read>,
+  params: Parameters<typeof table.read> = [],
   queryOptions?: Omit<BrightQuery.QueryOptions<T[]>, 'queryKey' | 'queryFn'>
 ) {
   return {
