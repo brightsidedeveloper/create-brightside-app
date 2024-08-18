@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "gen": "npx supabase gen types --lang=typescript --project-id \"$SUPABASE_REFERENCE_ID\" --schema public > src/types/database.types.ts && npx brightside-cli gen-brightbase",
+    "gen": "npx supabase gen types --lang=typescript --project-id \"$SUPABASE_REFERENCE_ID\" --schema public > src/types/database.types.ts && npx bsd gen-brightbase",
     "lint": "eslint .",
     "preview": "vite preview"
   },
