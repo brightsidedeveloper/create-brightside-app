@@ -26,7 +26,7 @@ export default function useSuspenseVirtualizerInfiniteQuery<T extends { [key: st
   const scrollRef = useRef<HTMLDivElement | null>(null)
   scrollRef.current = scrollViewMounted ? document.querySelector('[data-radix-scroll-area-viewport]')! : null
   const virtualizer = useVirtualizer({
-    count: items.length,
+    count: items.length + (queryRest.isFetching ? 1 : 0),
     getScrollElement: () => scrollRef.current,
     overscan: overscan ?? 12,
     estimateSize,
@@ -38,8 +38,8 @@ export default function useSuspenseVirtualizerInfiniteQuery<T extends { [key: st
   const onScroll = useCallback(() => {
     if (!scrollRef.current) return
     const { scrollTop, scrollHeight, clientHeight } = scrollRef.current
-    if (scrollTop + clientHeight + 500 >= scrollHeight && !queryRest.isFetching) fetchNextPage()
-  }, [fetchNextPage, queryRest.isFetching])
+    if (scrollTop + clientHeight + 500 >= scrollHeight && !queryRest.isFetching && queryRest.hasNextPage) fetchNextPage()
+  }, [fetchNextPage, queryRest.hasNextPage, queryRest.isFetching])
 
   useEffect(() => {
     const { current: el } = scrollRef

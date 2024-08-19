@@ -37,6 +37,7 @@ export default function VirtualizedInfiniteMap<T extends { [key: string]: unknow
         >
           {vItems.map((vRow) => {
             const item = items[vRow.index]
+            if (!item) return loadingComponent
             return (
               <div key={vRow.key} data-index={vRow.index} ref={virtualizer.measureElement}>
                 {children(item, vRow.index)}

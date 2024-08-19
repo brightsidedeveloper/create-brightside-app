@@ -167,8 +167,8 @@ function VirtualizeInfiniteScroll() {
       {...props}
       className="size-full px-4 animate-in"
       loadingComponent={
-        <div className="flex-1 w-full h-32 flex items-center justify-center">
-          <Loader2 className="size-12" />
+        <div className="flex-1 w-full h-[147px] flex items-center justify-center">
+          <Loader2 className="size-10 animate-spin" />
         </div>
       }
     >
