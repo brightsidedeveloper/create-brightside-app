@@ -2,7 +2,7 @@ import { BrightBaseCRUD } from 'brightside-developer'
 
 class FakeBrightBaseCRUD {
   async read() {
-    await new Promise((resolve) => setTimeout(resolve, 300))
+    await new Promise((resolve) => setTimeout(resolve, 50))
     return Array.from(mockTodos).map((todo) => ({
       id: crypto.randomUUID(),
       label: todo,
