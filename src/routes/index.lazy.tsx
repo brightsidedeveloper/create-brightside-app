@@ -23,7 +23,7 @@ import { Label } from '@/components/ui/shadcn/ui/label'
 import useCreateInfiniteQuery from '@/hooks/BrightBaseQuery/useCreateInfiniteQuery'
 import FakeTables from '@/api/FakeTables'
 import VirtualizedInfiniteMap from '@/components/BrightBaseQuery/VirtualizedInfiniteMap'
-import useSuspenseVirtualizerInfiniteQuery from '@/hooks/BrightBaseQuery/useSuspenseVirtualizerInfiniteQuery'
+import useSuspenseVirtualizedInfiniteMap from '@/hooks/BrightBaseQuery/useSuspenseVirtualizerInfiniteQuery'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/shadcn/ui/card'
 import { Loader2 } from 'lucide-react'
 import Carousel from '@/components/ui/Carousel'
@@ -161,7 +161,7 @@ function WelcomeAndDocs() {
 
 function VirtualizeInfiniteScroll() {
   const query = useCreateInfiniteQuery(FakeTables.todos, 20)
-  const props = useSuspenseVirtualizerInfiniteQuery(query, { estimateSize: (i) => (i === 0 ? 247 : 231) })
+  const props = useSuspenseVirtualizedInfiniteMap(query, { estimateSize: (i) => (i === 0 ? 247 : 231) })
   return (
     <VirtualizedInfiniteMap
       {...props}

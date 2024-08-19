@@ -1,7 +1,7 @@
 import { useVirtualizer } from '@tanstack/react-virtual'
 import { useSuspenseInfiniteQuery } from 'brightside-developer'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { UseBrightInfiniteQueryReturn } from './useCreateInfiniteQuery'
+import { UseCreateInfiniteQueryReturn } from './useCreateInfiniteQuery'
 
 interface VirtualizerOptions {
   estimateSize: (index: number) => number
@@ -9,8 +9,8 @@ interface VirtualizerOptions {
   horizontal?: boolean
 }
 
-export default function useSuspenseVirtualizerInfiniteQuery<T extends { [key: string]: unknown }>(
-  query: UseBrightInfiniteQueryReturn<T>,
+export default function useSuspenseVirtualizedInfiniteMap<T extends { [key: string]: unknown }>(
+  query: UseCreateInfiniteQueryReturn<T>,
   { estimateSize, overscan, horizontal = false }: VirtualizerOptions
 ) {
   const {
@@ -54,6 +54,6 @@ export default function useSuspenseVirtualizerInfiniteQuery<T extends { [key: st
   )
 }
 
-export type UseSuspenseVirtualizerInfiniteQueryReturn<T extends { [key: string]: unknown }> = ReturnType<
-  typeof useSuspenseVirtualizerInfiniteQuery<T>
+export type UseSuspenseVirtualizedInfiniteMapReturn<T extends { [key: string]: unknown }> = ReturnType<
+  typeof useSuspenseVirtualizedInfiniteMap<T>
 >

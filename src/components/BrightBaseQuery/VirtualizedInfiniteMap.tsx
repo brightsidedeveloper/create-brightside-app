@@ -1,6 +1,6 @@
 import { Dispatch, ReactNode, SetStateAction, useEffect, useMemo } from 'react'
 import { c, tw } from 'brightside-developer'
-import { UseSuspenseVirtualizerInfiniteQueryReturn } from '../../hooks/BrightBaseQuery/useSuspenseVirtualizerInfiniteQuery'
+import { UseSuspenseVirtualizedInfiniteMapReturn } from '../../hooks/BrightBaseQuery/useSuspenseVirtualizerInfiniteQuery'
 import { ScrollArea } from '../ui/shadcn/ui/scroll-area'
 
 interface VirtualizedInfiniteMapProps<T extends { [key: string]: unknown }> {
@@ -20,7 +20,7 @@ export default function VirtualizedInfiniteMap<T extends { [key: string]: unknow
   horizontal,
   setScrollViewMounted,
   children,
-}: UseSuspenseVirtualizerInfiniteQueryReturn<T> & VirtualizedInfiniteMapProps<T>) {
+}: UseSuspenseVirtualizedInfiniteMapReturn<T> & VirtualizedInfiniteMapProps<T>) {
   const cn = useMemo(() => c('flex', tw(horizontal && 'flex-col'), className), [className, horizontal])
   if (isLoading) return loadingComponent
   return (

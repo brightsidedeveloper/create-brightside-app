@@ -26,6 +26,6 @@ function useCreateInfiniteQuery<T extends { [key: string]: unknown }>(
   )
 }
 
-export type UseBrightInfiniteQueryReturn<T extends { [key: string]: unknown }> = ReturnType<typeof useCreateInfiniteQuery<T>>
+export type UseCreateInfiniteQueryReturn<T extends { [key: string]: unknown }> = ReturnType<typeof useCreateInfiniteQuery<T>>
 
 export default useCreateInfiniteQuery
