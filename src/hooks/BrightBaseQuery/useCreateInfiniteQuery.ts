@@ -17,7 +17,7 @@ function useCreateInfiniteQuery<T extends { [key: string]: unknown }>(
         }),
       getNextPageParam: (lastPage: T[], pages: T[][]) => {
         // Determine if there are more pages to load based on the last page data
-        if (lastPage.length < 3) return undefined
+        if (lastPage.length < pageSize) return undefined
         return pages.length
       },
       initialPageParam: 0,
