@@ -38,7 +38,7 @@ function Index() {
   return (
     <div className="size-screen">
       <Header />
-      <ResizablePanelGroup className="max-w-screen-2xl mx-auto border-l border-r" direction="horizontal">
+      <ResizablePanelGroup className="[max-width:1920px] mx-auto border-l border-r" direction="horizontal">
         {/*  */}
         <ResizablePanel defaultSize={70}>
           <WelcomeAndDocs />
@@ -98,7 +98,7 @@ function Index() {
 function Header() {
   return (
     <header className="h-12 border-b shadow-sm flex items-center justify-center">
-      <div className="px-2 flex items-center justify-between w-full max-w-screen-2xl">
+      <div className="px-2 flex items-center justify-between w-full [max-width:1920px]">
         <span className="font-semibold text-xl">BrightStack Official</span>
         <div className="w-fit flex items-center gap-3">
           <Command>
@@ -176,7 +176,9 @@ function VirtualizeInfiniteScroll() {
         <Card className={tw('mb-4', i === 0 && 'mt-4')}>
           <CardHeader>
             <CardTitle>BrightSide</CardTitle>
-            <CardDescription>Themed virtualized scroll with infinite suspense query from generated supabase in seconds.</CardDescription>
+            <CardDescription>
+              Themed virtualized scroll with infinite suspense query from generated supabase schemas in seconds.
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <p>{label}</p>
