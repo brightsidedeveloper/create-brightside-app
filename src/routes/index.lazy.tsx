@@ -177,7 +177,7 @@ function VirtualizeInfiniteScroll() {
           <CardHeader>
             <CardTitle>BrightSide</CardTitle>
             <CardDescription>
-              Themed virtualized scroll with infinite suspense query from generated supabase schemas in seconds.
+              Themed and virtualized scroll with infinite suspense query from generated supabase schemas in seconds.
             </CardDescription>
           </CardHeader>
           <CardContent>
