@@ -14,9 +14,8 @@ import SheetContent from '@/components/ui/sheet/SheetContent'
 import { DrawerContent } from '@/components/ui/drawer/DrawerContent'
 import { Sheet } from '@/components/ui/shadcn/ui/sheet'
 import { Switch } from '@/components/ui/shadcn/ui/switch'
-import { Suspense, useState } from 'react'
-import { BrightBaseRealtime, tw } from 'bsdweb'
-import { RealtimeEvents } from '@/types/bright.types'
+import { Suspense, useCallback, useState } from 'react'
+import { BrightBaseEdge, BrightBaseRealtime, tw, wetToast } from 'bsdweb'
 import useSubscribe from '@/hooks/BrightBaseRealtime/useSubscribe'
 import useEvent from '@/hooks/BrightBaseRealtime/useEvent'
 import { Label } from '@/components/ui/shadcn/ui/label'
@@ -26,7 +25,6 @@ import VirtualizedInfiniteMap from '@/components/BrightBaseQuery/VirtualizedInfi
 import useSuspenseVirtualizedInfiniteMap from '@/hooks/BrightBaseQuery/useSuspenseVirtualizerInfiniteQuery'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/shadcn/ui/card'
 import { Loader2 } from 'lucide-react'
-import Carousel from '@/components/ui/Carousel'
 import { ScrollArea } from '@/components/ui/shadcn/ui/scroll-area'
 import { Skeleton } from '@/components/ui/shadcn/ui/skeleton'
 
@@ -153,8 +151,12 @@ function WelcomeAndDocs() {
           </span>
         </div>
       </div>
+
+      <p>
+        React Hook form that posts to my data base with a powerful crud hook pattern that is unbelievably reusable and easy to implement!
+      </p>
+
       <Accordion />
-      <Carousel />
     </div>
   )
 }
@@ -172,21 +174,9 @@ function VirtualizeInfiniteScroll() {
         </div>
       }
     >
-      {({ label }, i) => (
+      {(item, i) => (
         <Card className={tw('mb-4', i === 0 && 'mt-4')}>
-          <CardHeader>
-            <CardTitle>BrightSide</CardTitle>
-            <CardDescription>
-              Themed and virtualized scroll with infinite suspense query from generated supabase schemas in seconds.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <p>{label}</p>
-          </CardContent>
-          <CardFooter className="flex justify-between">
-            <Button variant="outline">Cancel</Button>
-            <Button>Deploy</Button>
-          </CardFooter>
+          <EdgeFunction {...item} />
         </Card>
       )}
     </VirtualizedInfiniteMap>
@@ -210,7 +200,7 @@ function FullShadcnSupport() {
   )
 }
 
-interface Events extends RealtimeEvents {
+type Events = {
   checked: { toggle: boolean }
 }
 
@@ -228,5 +218,45 @@ function RealtimeDemo() {
       <Label htmlFor="realtime">Realtime Switch</Label>
       <Switch id="realtime" checked={checked} onCheckedChange={() => emitter.emit('checked', { toggle: !checked })} />
     </div>
+  )
+}
+
+type Functions = {
+  ai: { message: string }
+}
+
+const edge = new BrightBaseEdge<Functions>()
+
+function EdgeFunction({ label }: { label: string }) {
+  const [aiRes, setAiRes] = useState<string | null>(null)
+  const [loading, setLoading] = useState(false)
+
+  const go = useCallback(
+    () =>
+      edge
+        .first(() => setLoading(true))
+        .invoke('ai', { message: label })
+        .then(setAiRes)
+        .catch(() => wetToast('Failed to invoke AI', { icon: '❌' }))
+        .finally(() => setLoading(false)),
+    [label]
+  )
+
+  return (
+    <>
+      <CardHeader>
+        <CardTitle>BrightSide</CardTitle>
+        <CardDescription>
+          Themed and virtualized scroll with infinite suspense query from generated supabase schemas in seconds.
+        </CardDescription>
+      </CardHeader>
+      <CardContent>{aiRes ?? label}</CardContent>
+      <CardFooter className="flex justify-between">
+        <Button variant="outline">Cancel</Button>
+        <Button onClick={go} disabled={loading}>
+          Invoke AI
+        </Button>
+      </CardFooter>
+    </>
   )
 }
