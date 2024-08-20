@@ -1,8 +1,6 @@
 import { BrightBaseRealtime } from 'bsdweb'
-import { useEffect, useRef } from 'react'
+import { useEffect } from 'react'
 
 export default function useSubscribe<T extends { [event: string]: { [event: string]: unknown } }>(channel: BrightBaseRealtime<T>) {
-  const channelRef = useRef(channel)
-  channelRef.current = channel
-  useEffect(() => channelRef.current.subscribe(), [])
+  useEffect(() => channel.subscribe(), [channel])
 }

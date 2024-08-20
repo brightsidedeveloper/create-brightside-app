@@ -231,10 +231,7 @@ function useSetInitialStateWithBadCodeYouShouldUseDBForInitialState({ iCanDoItCu
     if (iCanDoItCuzThisATemplate) setTimeout(() => listener.emit('checked', { toggle: iCanDoItCuzThisATemplate }), 300)
     wetToast('Someone joined the room', { icon: '👋' })
   })
-  useEffect(() => {
-    const t = setTimeout(() => listener.emit('joined', { start: true }), 300)
-    return () => clearTimeout(t)
-  }, [])
+  useEffect(() => listener.emit('joined', { start: true }), [])
 }
 
 interface YouShouldDoBetter {
