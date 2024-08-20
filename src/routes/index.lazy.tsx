@@ -238,7 +238,7 @@ function EdgeFunction({ label }: { label: string }) {
         .first(() => setLoading(true))
         .invoke('ai', { message: label })
         .then(setAiRes)
-        .catch(() => wetToast("This edge function doesn't exist, check out bsdserv on npm for blessing. To ez 🤣", { icon: '❌' }))
+        .catch(() => wetToast("This edge function doesn't exist, check out bsdserv on deno for blessing. To ez 🤣", { icon: '❌' }))
         .finally(() => setLoading(false)),
     [label]
   )
