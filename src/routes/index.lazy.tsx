@@ -14,7 +14,7 @@ import SheetContent from '@/components/ui/sheet/SheetContent'
 import { DrawerContent } from '@/components/ui/drawer/DrawerContent'
 import { Sheet } from '@/components/ui/shadcn/ui/sheet'
 import { Switch } from '@/components/ui/shadcn/ui/switch'
-import { Suspense, useCallback, useState } from 'react'
+import { Suspense, useCallback, useEffect, useState } from 'react'
 import { BrightBaseEdge, BrightBaseRealtime, tw, wetToast } from 'bsdweb'
 import useSubscribe from '@/hooks/BrightBaseRealtime/useSubscribe'
 import useEvent from '@/hooks/BrightBaseRealtime/useEvent'
@@ -203,6 +203,7 @@ function FullShadcnSupport() {
 
 type Events = {
   checked: { toggle: boolean }
+  joined: { start: boolean }
 }
 
 const listener = new BrightBaseRealtime<Events>('room1')
@@ -214,12 +215,30 @@ function RealtimeDemo() {
   useSubscribe(listener)
   useEvent(listener, 'checked', ({ toggle }) => setChecked(toggle))
 
+  useSetInitialStateWithBadCodeYouShouldUseDBForInitialState({ iCanDoItCuzThisATemplate: checked })
+
   return (
     <div className="flex items-center space-x-2">
       <Label htmlFor="realtime">Realtime Switch</Label>
       <Switch id="realtime" checked={checked} onCheckedChange={() => emitter.emit('checked', { toggle: !checked })} />
     </div>
   )
+}
+
+function useSetInitialStateWithBadCodeYouShouldUseDBForInitialState({ iCanDoItCuzThisATemplate }: YouShouldDoBetter) {
+  useEvent(listener, 'joined', () => {
+    // If a million people join at once, this will be a problem 🤣
+    if (iCanDoItCuzThisATemplate) setTimeout(() => listener.emit('checked', { toggle: iCanDoItCuzThisATemplate }), 300)
+    wetToast('Someone joined the room', { icon: '👋' })
+  })
+  useEffect(() => {
+    const t = setTimeout(() => listener.emit('joined', { start: true }), 300)
+    return () => clearTimeout(t)
+  }, [])
+}
+
+interface YouShouldDoBetter {
+  iCanDoItCuzThisATemplate: boolean
 }
 
 type Functions = {
