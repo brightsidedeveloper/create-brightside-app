@@ -153,8 +153,8 @@ function WelcomeAndDocs() {
       </div>
 
       <p className="text-center max-w-xl">
-        // TODO: React Hook form that posts to my data base with a powerful crud hook pattern that is unbelievably reusable and easy to then
-        get leads from the demo implement!
+        // TODO: Integrate React Hook form that posts to my data base with a powerful brightbasecrud hook pattern that is unbelievably
+        reusable and easy to implement, then get leads from the demo!
       </p>
 
       <Accordion />
