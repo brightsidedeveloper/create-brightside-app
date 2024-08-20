@@ -1,4 +1,4 @@
-import { QueryKey, useQueryClient } from 'brightside-developer'
+import { QueryKey, useQueryClient } from 'bsdweb'
 import { useCallback } from 'react'
 import { UseBrightSuspenseQueryReturn } from './useCreateQuery'
 

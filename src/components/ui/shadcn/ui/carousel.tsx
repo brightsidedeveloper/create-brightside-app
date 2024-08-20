@@ -2,7 +2,7 @@ import * as React from 'react'
 import useEmblaCarousel, { type UseEmblaCarouselType } from 'embla-carousel-react'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
 
-import { c } from 'brightside-developer'
+import { c } from 'bsdweb'
 import { Button } from './button'
 
 type CarouselApi = UseEmblaCarouselType[1]

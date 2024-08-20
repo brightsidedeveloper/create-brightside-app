@@ -1,4 +1,4 @@
-import { BrightBaseRealtime } from 'brightside-developer'
+import { BrightBaseRealtime } from 'bsdweb'
 import { useEffect, useRef } from 'react'
 
 export default function useSubscribe<T extends { [event: string]: { [event: string]: unknown } }>(channel: BrightBaseRealtime<T>) {

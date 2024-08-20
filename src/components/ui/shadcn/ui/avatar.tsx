@@ -1,6 +1,6 @@
 import * as React from 'react'
 import * as AvatarPrimitive from '@radix-ui/react-avatar'
-import { c } from 'brightside-developer'
+import { c } from 'bsdweb'
 
 const Avatar = React.forwardRef<React.ElementRef<typeof AvatarPrimitive.Root>, React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Root>>(
   ({ className, ...props }, ref) => (

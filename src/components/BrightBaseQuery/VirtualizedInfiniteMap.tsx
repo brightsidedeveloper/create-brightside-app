@@ -1,5 +1,5 @@
 import { Dispatch, ReactNode, SetStateAction, useEffect, useMemo } from 'react'
-import { c, tw } from 'brightside-developer'
+import { c, tw } from 'bsdweb'
 import { UseSuspenseVirtualizedInfiniteMapReturn } from '../../hooks/BrightBaseQuery/useSuspenseVirtualizerInfiniteQuery'
 import { ScrollArea } from '../ui/shadcn/ui/scroll-area'
 

@@ -1,7 +1,7 @@
 import * as React from 'react'
 import * as MenubarPrimitive from '@radix-ui/react-menubar'
 import { Check, ChevronRight, Circle } from 'lucide-react'
-import { c } from 'brightside-developer'
+import { c } from 'bsdweb'
 
 const MenubarMenu = MenubarPrimitive.Menu
 

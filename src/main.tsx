@@ -1,6 +1,6 @@
 import ReactDOM from 'react-dom/client'
 import { createRouter, RouterProvider } from '@tanstack/react-router'
-import { BrightProvider, initBrightBase } from 'brightside-developer'
+import { BrightProvider, initBrightBase } from 'bsdweb'
 import './index.css'
 
 // Import the generated route tree

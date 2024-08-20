@@ -1,4 +1,4 @@
-import { c } from 'brightside-developer'
+import { c } from 'bsdweb'
 import { GripVertical } from 'lucide-react'
 import * as ResizablePrimitive from 'react-resizable-panels'
 

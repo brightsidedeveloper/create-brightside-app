@@ -1,6 +1,6 @@
 import * as React from 'react'
 import * as TooltipPrimitive from '@radix-ui/react-tooltip'
-import { c } from 'brightside-developer'
+import { c } from 'bsdweb'
 
 const TooltipProvider = TooltipPrimitive.Provider
 

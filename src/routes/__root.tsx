@@ -1,6 +1,6 @@
 import { createRootRoute, Outlet } from '@tanstack/react-router'
 import { TanStackRouterDevtools } from '@tanstack/router-devtools'
-import { BrightQueryDevTools, BrightWebTheme } from 'brightside-developer'
+import { BrightQueryDevTools, BrightWebTheme } from 'bsdweb'
 
 export const Route = createRootRoute({
   beforeLoad() {

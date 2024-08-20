@@ -1,5 +1,5 @@
 import { useVirtualizer } from '@tanstack/react-virtual'
-import { useSuspenseInfiniteQuery } from 'brightside-developer'
+import { useSuspenseInfiniteQuery } from 'bsdweb'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { UseCreateInfiniteQueryReturn } from './useCreateInfiniteQuery'
 

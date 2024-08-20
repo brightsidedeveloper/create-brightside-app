@@ -1,4 +1,4 @@
-import { BrightBaseCRUD } from 'brightside-developer'
+import { BrightBaseCRUD } from 'bsdweb'
 import { useMemo } from 'react'
 
 function useCreateInfiniteQuery<T extends { [key: string]: unknown }>(

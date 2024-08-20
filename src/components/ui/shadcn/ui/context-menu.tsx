@@ -1,7 +1,7 @@
 import * as React from 'react'
 import * as ContextMenuPrimitive from '@radix-ui/react-context-menu'
 import { Check, ChevronRight, Circle } from 'lucide-react'
-import { c } from 'brightside-developer'
+import { c } from 'bsdweb'
 
 const ContextMenu = ContextMenuPrimitive.Root
 

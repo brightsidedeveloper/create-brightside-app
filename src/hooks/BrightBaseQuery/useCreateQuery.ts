@@ -1,4 +1,4 @@
-import { BrightBaseCRUD, QueryOptions } from 'brightside-developer'
+import { BrightBaseCRUD, QueryOptions } from 'bsdweb'
 import { useMemo } from 'react'
 
 export default function useCreateQuery<T extends { [key: string]: unknown }>(

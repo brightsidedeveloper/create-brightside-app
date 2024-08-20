@@ -1,4 +1,4 @@
-import { BrightBaseCRUD } from 'brightside-developer'
+import { BrightBaseCRUD } from 'bsdweb'
 
 class FakeBrightBaseCRUD {
   async read() {

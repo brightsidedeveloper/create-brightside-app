@@ -1,4 +1,4 @@
-import { c } from 'brightside-developer'
+import { c } from 'bsdweb'
 import * as React from 'react'
 
 const Card = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(({ className, ...props }, ref) => (

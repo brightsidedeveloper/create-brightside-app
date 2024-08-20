@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "gen": "npx supabase gen types --lang=typescript --project-id \"$SUPABASE_REFERENCE_ID\" --schema public > src/types/database.types.ts && npx bsd gen-brightbase",
+    "gen": "npx supabase gen types --lang=typescript --project-id \"$SUPABASE_REFERENCE_ID\" --schema public > src/types/database.types.ts && npx bsd genbb",
     "lint": "eslint .",
     "preview": "vite preview"
   },
@@ -28,7 +28,7 @@
     "@tanstack/router-devtools": "^1.48.1",
     "@tanstack/router-plugin": "^1.47.0",
     "add": "^2.0.6",
-    "brightside-developer": "^0.0.19",
+    "bsdweb": "^0.0.0",
     "class-variance-authority": "^0.7.0",
     "cmdk": "^1.0.0",
     "embla-carousel-react": "^8.1.8",
@@ -50,7 +50,7 @@
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react-swc": "^3.5.0",
     "autoprefixer": "^10.4.20",
-    "brightside-cli": "^0.0.37",
+    "bsdcli": "^0.0.0",
     "eslint": "^9.8.0",
     "eslint-plugin-react-hooks": "^5.1.0-rc.0",
     "eslint-plugin-react-refresh": "^0.4.9",

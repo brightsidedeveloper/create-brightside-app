@@ -1,5 +1,5 @@
 import { EventCallback } from '@/types/bright.types'
-import { BrightBaseRealtime } from 'brightside-developer'
+import { BrightBaseRealtime } from 'bsdweb'
 import { useEffect, useRef } from 'react'
 
 export default function useEvent<T extends { [event: string]: { [event: string]: unknown } }, K extends keyof T>(
