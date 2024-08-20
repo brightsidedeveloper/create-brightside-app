@@ -152,8 +152,9 @@ function WelcomeAndDocs() {
         </div>
       </div>
 
-      <p>
-        React Hook form that posts to my data base with a powerful crud hook pattern that is unbelievably reusable and easy to implement!
+      <p className="text-center max-w-xl">
+        // TODO: React Hook form that posts to my data base with a powerful crud hook pattern that is unbelievably reusable and easy to
+        implement!
       </p>
 
       <Accordion />
@@ -254,7 +255,7 @@ function EdgeFunction({ label }: { label: string }) {
       <CardFooter className="flex justify-between">
         <Button variant="outline">Cancel</Button>
         <Button onClick={go} disabled={loading}>
-          Invoke AI
+          {loading ? <Loader2 className="size-5 animate-spin mx-5" /> : 'Invoke AI'}
         </Button>
       </CardFooter>
     </>
