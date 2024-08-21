@@ -28,7 +28,7 @@
     "@tanstack/router-devtools": "^1.48.1",
     "@tanstack/router-plugin": "^1.47.0",
     "add": "^2.0.6",
-    "bsdweb": "^0.0.9",
+    "bsdweb": "^0.0.24",
     "class-variance-authority": "^0.7.0",
     "cmdk": "^1.0.0",
     "embla-carousel-react": "^8.1.8",
@@ -41,7 +41,8 @@
     "resizable": "^1.2.1",
     "shadcn-ui": "^0.8.0",
     "tailwindcss-animate": "^1.0.7",
-    "vaul": "^0.9.1"
+    "vaul": "^0.9.1",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@eslint/js": "^9.8.0",

@@ -15,7 +15,7 @@ import { DrawerContent } from '@/components/ui/drawer/DrawerContent'
 import { Sheet } from '@/components/ui/shadcn/ui/sheet'
 import { Switch } from '@/components/ui/shadcn/ui/switch'
 import { Suspense, useCallback, useEffect, useState } from 'react'
-import { BrightBaseEdge, BrightBaseRealtime, tw, wetToast } from 'bsdweb'
+import { BrightBaseAuth, BrightBaseEdge, BrightBaseRealtime, BrightBaseStorage, tw, wetToast } from 'bsdweb'
 import useSubscribe from '@/hooks/BrightBaseRealtime/useSubscribe'
 import useEvent from '@/hooks/BrightBaseRealtime/useEvent'
 import { Label } from '@/components/ui/shadcn/ui/label'
@@ -122,7 +122,20 @@ function Header() {
   )
 }
 
+const test_bucket = new BrightBaseStorage('test_bucket')
+
 function WelcomeAndDocs() {
+  const [url, setUrl] = useState('/Bright.svg')
+
+  const upload = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return wetToast('No file selected', { icon: '❌' })
+    test_bucket
+      .uploadFile('test2', file, { upsert: true })
+      .then(setUrl)
+      .catch((error) => wetToast(error.message, { icon: '❌' }))
+  }, [])
+
   return (
     <div className="p-10 w-full flex justify-center items-center flex-col gap-4 h-[calc(100dvh-3rem)] @container">
       <div className="p-8 rounded-3xl border bg-card shadow-md dark:shadow-xl w-full max-w-[600px]">
@@ -130,12 +143,16 @@ function WelcomeAndDocs() {
         <p className="text-xl">Enjoy Coding!</p>
       </div>
       <div className="flex gap-6 items-center">
-        <img src="/Bright.svg" alt="BrightStack Logo" className="w-20 @md:w-32 @2xl:w-48 rounded-3xl shadow-md dark:shadow-xl" />
+        <img src={url} alt="BrightStack Logo" className="aspect-square w-20 @md:w-32 @2xl:w-48 rounded-3xl shadow-md dark:shadow-xl" />
         <div>
           <h4 className="text-lg @md:text-4xl @2xl:text-6xl @2xl:pb-5 font-semibold">BrightSide!</h4>
           <p className="text-xs @md:text-sm @lg:text-base">
             There are a lot of things you can do with BrightStack.
-            <br /> Check out the docs to learn more.
+            <br />{' '}
+            <button onClick={(e) => (e.currentTarget.nextElementSibling as HTMLInputElement).click()}>
+              for example, <span className="underline hover:text-primary">click here to upload a file</span>
+            </button>
+            <input type="file" accept="image/*" onChange={upload} className="hidden" />
           </p>
           <span className="text-xs @md:text-sm @lg:text-base">
             <Tooltip content="Wow, tooltip support!">
@@ -158,6 +175,8 @@ function WelcomeAndDocs() {
       </p>
 
       <Accordion />
+
+      <Auth />
     </div>
   )
 }
@@ -254,7 +273,7 @@ function EdgeFunction({ label }: { label: string }) {
         .first(() => setLoading(true))
         .invoke('ai', { message: label })
         .then(setAiRes)
-        .catch(() => wetToast("This edge function doesn't exist, check out bsdserv on deno for blessing. To ez 🤣", { icon: '❌' }))
+        .catch(() => wetToast("This edge function doesn't exist, check out bsdserv on npm for blessing. To ez 🤣", { icon: '❌' }))
         .finally(() => setLoading(false)),
     [label]
   )
@@ -275,5 +294,42 @@ function EdgeFunction({ label }: { label: string }) {
         </Button>
       </CardFooter>
     </>
+  )
+}
+
+const auth = new BrightBaseAuth()
+
+function Auth() {
+  const login = useCallback(() => {
+    auth
+      .signInWithEmail({ email: 'tim@brightsidedeveloper.com', password: 'password' })
+      .then(() => wetToast('Logged in successfully', { icon: '🎉' }))
+      .catch((error: Error) => wetToast(error.message, { icon: '❌' }))
+  }, [])
+
+  const signUp = useCallback(() => {
+    auth
+      .signUpWithEmail({ email: 'tim@brightsidedeveloper.com', password: 'password' })
+      .then(() => wetToast('Check your email, then login', { icon: '🎉' }))
+      .catch((error: Error) => wetToast(error.message, { icon: '❌' }))
+  }, [])
+
+  const logout = useCallback(() => {
+    auth
+      .signOut()
+      .then(() => wetToast('Logged out successfully', { icon: '👋' }))
+      .catch((error: Error) => wetToast(error.message, { icon: '❌' }))
+  }, [])
+
+  return (
+    <div className="flex gap-4 items-center">
+      <Button onClick={login}>Login</Button>
+      <Button onClick={signUp} variant="outline">
+        Sign Up
+      </Button>
+      <Button onClick={logout} variant="outline">
+        Logout
+      </Button>
+    </div>
   )
 }
