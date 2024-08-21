@@ -300,36 +300,91 @@ function EdgeFunction({ label }: { label: string }) {
 const auth = new BrightBaseAuth()
 
 function Auth() {
-  const login = useCallback(() => {
+  const [loading, setLoading] = useState(false)
+
+  const login = () => {
     auth
-      .signInWithEmail({ email: 'tim@brightsidedeveloper.com', password: 'password' })
+      .first(() => setLoading(true))
+      .signInWithEmail({ email: 'tim@brightsidedeveloper.com', password: 'password123' })
       .then(() => wetToast('Logged in successfully', { icon: '🎉' }))
       .catch((error: Error) => wetToast(error.message, { icon: '❌' }))
-  }, [])
+      .finally(() => setLoading(false))
+  }
 
-  const signUp = useCallback(() => {
+  const signUp = () => {
     auth
+      .first(() => setLoading(true))
       .signUpWithEmail({ email: 'tim@brightsidedeveloper.com', password: 'password' })
       .then(() => wetToast('Check your email, then login', { icon: '🎉' }))
       .catch((error: Error) => wetToast(error.message, { icon: '❌' }))
-  }, [])
+      .finally(() => setLoading(false))
+  }
 
-  const logout = useCallback(() => {
+  const logout = () => {
     auth
+      .first(() => setLoading(true))
       .signOut()
       .then(() => wetToast('Logged out successfully', { icon: '👋' }))
       .catch((error: Error) => wetToast(error.message, { icon: '❌' }))
-  }, [])
+      .finally(() => setLoading(false))
+  }
+
+  const resetPassword = () => {
+    auth
+      .first(() => setLoading(true))
+      .resetPassword({ email: 'tim@brightsidedeveloper.com' })
+      .then(() => wetToast('Check your email to reset your password', { icon: '🎉' }))
+      .catch((error: Error) => wetToast(error.message, { icon: '❌' }))
+      .finally(() => setLoading(false))
+  }
+
+  const changePassword = () => {
+    auth
+      .first(() => setLoading(true))
+      .updatePassword({ newPassword: 'password123' })
+      .catch((error: Error) => wetToast(error.message, { icon: '❌' }))
+      .finally(() => setLoading(false))
+  }
+
+  // const signInWithGoogle = () => {
+  //   auth
+  //     .first(() => setLoading(true))
+  //     .signInWithGoogle()
+  //     .then(() => wetToast('Logged in with Google successfully', { icon: '🎉' }))
+  //     .catch((error: Error) => wetToast(error.message, { icon: '❌' }))
+  //     .finally(() => setLoading(false))
+  // }
+
+  // const signinWithApple = () => {
+  //   auth
+  //     .first(() => setLoading(true))
+  //     .signInWithApple()
+  //     .then(() => wetToast('Logged in with Apple successfully', { icon: '🎉' }))
+  //     .catch((error: Error) => wetToast(error.message, { icon: '❌' }))
+  //     .finally(() => setLoading(false))
+  // }
 
   return (
-    <div className="flex gap-4 items-center">
-      <Button onClick={login}>Login</Button>
-      <Button onClick={signUp} variant="outline">
-        Sign Up
-      </Button>
-      <Button onClick={logout} variant="outline">
-        Logout
-      </Button>
-    </div>
+    <>
+      <div className="flex gap-4 items-center">
+        <Button disabled={loading} onClick={login}>
+          Login
+        </Button>
+        <Button disabled={loading} onClick={signUp} variant="outline">
+          Sign Up
+        </Button>
+        <Button disabled={loading} onClick={logout} variant="outline">
+          Logout
+        </Button>
+      </div>
+      <div className="flex gap-4 items-center">
+        <Button disabled={loading} onClick={changePassword} variant="outline">
+          Change Password
+        </Button>
+        <Button disabled={loading} onClick={resetPassword} variant="outline">
+          Reset Password
+        </Button>
+      </div>
+    </>
   )
 }
