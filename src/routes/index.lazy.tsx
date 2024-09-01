@@ -32,6 +32,11 @@ export const Route = createLazyFileRoute('/')({
   component: Index,
 })
 
+/**
+ * Demo of a full stack application using BrightStack with a lot of features and components.
+ * Delete this file and create your own to get started.
+ */
+
 function Index() {
   return (
     <div className="size-screen">
